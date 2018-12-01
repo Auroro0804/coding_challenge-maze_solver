@@ -1,0 +1,61 @@
+coding challenge 
+
+summary: solve 5 mazes with varying size and endpoints.
+
+Part 1:make http request to get current situation and make moves
+
+To start this game, I make a http POST request to get a token from the server using my student id. This token will be passed as parameters in the rest of the http requests I made.
+
+One of the hard part in this coding challenge is that the data related to the maze(size, starting point, game status, etc.) are not stored locally. Instead , it should be obtained from a remote server, by using the GET http request. The status of the player (current location, response after making a move, etc.) is also stored and updated in a remote server. To make a move in the maze, I make a POST http request.
+
+def get_token()
+	In this function, I passed into a costum header as specified in the prompt. 
+	A header defines the operating parameters of an HTTP transaction.
+	I passed in CONTENT_TYPE as header , which tells the media type of the request body. (content type basically tells the server what kind of thing is making the request to it, as I understand.)
+def get_current_state()
+def make_a_move()
+
+Part 2:maze solver and its help functions
+
+	helper functions:
+	def hitWall()
+		tell me if i will hit a wall after making this move
+	def construct_visited()
+		construct the data structure I need for dfs()
+
+	data structure:
+	visited:
+	2-D array of char.initialized with space in each entry
+	visited [i][j]="W" if (i,j) in the maze is a wall
+	visited [i][j]="*" if (i,j) in the maze is visited before
+
+	def dfs()
+	at the current location:
+	move the the four direction (with the order {up down left right}):
+	for a specific unvisited direction:
+		check if we would be out of bound, after moving this move.
+		if we see a wall:
+			mark as wall on visited
+		if we find the endpoint:
+			return true
+		if we successfully move to the desired direction:
+			call dfs() recursively, passing in the current location,which is one step closer to solving the maze.
+			if this call of dfs() returns true:
+				the direction we moved before calling this dfs() is the right direction.
+				return true.
+			if not:
+				the direction we choosed before calling this dfs() would lead us to a deadend. We should not move in this direction.
+				make a move to the reversed direction and continue trying other directions.
+
+
+Part 3:main function 
+
+	call dfs() for 5 times since we are solving 5 mazes
+
+Difficulties / what I have learned:
+1, I learned about making http request for the first time.
+	key concepts:
+	HTTP request , POST, GET, headers , etc.
+2, The logic of backtracking in dfs() as specified in Part 3.
+3, The coordinate system specified in the coding challenge is very counter-intuitive.
+4, A good way of debugging : printing out the visited map using DataFrame, instead of just pring out locations as value. It is way easier to read and see the path of solving the maze if I print it out everytime.
